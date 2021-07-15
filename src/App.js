@@ -1,10 +1,12 @@
 import './App.scss';
+import Header from './components/header/header';
 
+//Layout
 function App() {
   return (
-    <div className="App">
-     Ecommerce
-     </div>
+    <div className='App'>
+      <Header />
+    </div>
   );
 }
 
