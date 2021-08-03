@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { ProductsContext } from '../../context/product-context';
-import Layout from '../shared/layout';
+import { CartContext } from '../../context/cart-conrext';
+import { isInCart } from '../../helpers';
 
+import Layout from '../shared/layout';
 import './single-product.scss';
 
 const SingleProduct = ({ match, history: { push } }) => {
   const { products } = useContext(ProductsContext);
+  const { cartItems, addProduct, increase } = useContext(CartContext);
+
   const { id } = match.params;
   const [product, setProduct] = useState(null);
 
@@ -16,7 +20,7 @@ const SingleProduct = ({ match, history: { push } }) => {
       return push('/shop');
     }
     setProduct(product);
-  }, []);
+  }, [id, product, push, products]);
 
   if (!product) {
     return null;
@@ -25,7 +29,7 @@ const SingleProduct = ({ match, history: { push } }) => {
   return (
     <Layout>
       <div className='single-product-container'>
-        <div className='single-image'>
+        <div className='product-image'>
           <img src={imageUrl} alt='product' />
         </div>
         <div className='product-details'>
@@ -34,12 +38,24 @@ const SingleProduct = ({ match, history: { push } }) => {
             <p>$ {price}</p>
           </div>
           <div className='add-to-cart-btns'>
-            <button
-              className='button is-white nomad-btn'
-              id='btn-white-outline'
-            >
-              ADD TO CART
-            </button>
+            {!isInCart(product, cartItems) && (
+              <button
+                className='button is-white nomad-btn'
+                id='btn-white-outline'
+                onClick={() => addProduct(product)}
+              >
+                ADD TO CART
+              </button>
+            )}
+            {isInCart(product, cartItems) && (
+              <button
+                className='button is-white nomad-btn'
+                id='btn-white-outline'
+                onClick={() => increase(product)}
+              >
+                ADD MORE
+              </button>
+            )}
             <button
               className='button is-black nomad-btn'
               id='btn-white-outline'
