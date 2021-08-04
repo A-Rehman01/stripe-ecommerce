@@ -6,12 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import ProductsContextProvider from './context/product-context';
 import CartConextProvider from './context/cart-conrext';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
 
 ReactDOM.render(
   <BrowserRouter>
     <ProductsContextProvider>
       <CartConextProvider>
-        <App />
+        <Elements stripe={stripePromise}>
+          <App />
+        </Elements>
       </CartConextProvider>
     </ProductsContextProvider>
   </BrowserRouter>,
