@@ -3,7 +3,7 @@ h1,
   text-align: center;
 }
 
-.cart-item {
+.cart-page {
   text-align: center;
   border: 1px solid #ccc;
   margin: 2rem;
@@ -49,6 +49,10 @@ h1,
   .total-container {
     margin: 2rem;
     text-align: center;
+    .total {
+      text-align: center;
+      // background-color: red;
+    }
   }
 }
 

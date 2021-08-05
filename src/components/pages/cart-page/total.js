@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import './cart-page-style.scss';
+// import './cart-page-style.scss';
 
 const Total = ({ itemCount, total, history, clearCart }) => {
   return (

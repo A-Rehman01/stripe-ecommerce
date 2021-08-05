@@ -26,7 +26,7 @@ const CartPage = () => {
           <>
             <div className='cart-page'>
               <div className='cart-item-container'>
-                {cartItems?.map((item) => (
+                {cartItems.map((item) => (
                   <CartItem {...item} key={item.id} {...funcs} />
                 ))}
               </div>
