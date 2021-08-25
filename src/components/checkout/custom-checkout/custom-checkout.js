@@ -15,6 +15,7 @@ const CustomCheckout = ({ history: { push }, shipping, cartItems }) => {
   const [error, setError] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
   const elements = useElements();
+  const stripe = useStripe();
 
   useEffect(() => {
     const items = cartItems.map((item) => ({
@@ -41,8 +42,23 @@ const CustomCheckout = ({ history: { push }, shipping, cartItems }) => {
       };
       customCheckout();
     }
-  }, []);
+  }, [shipping, cartItems]);
 
+  const handleCheckout = async () => {
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardNumberElement),
+      },
+    });
+    setProcessing(false);
+
+    if (payload.error) {
+      setError(`Payment Failed , ${payload.error.message}`);
+    } else {
+      push('/success');
+    }
+  };
   const cardHandleChange = (event) => {
     const { error } = event;
     setError(error ? error.message : '');

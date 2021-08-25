@@ -2,14 +2,18 @@ import React, { useContext, useState } from 'react';
 import { CartContext } from '../../context/cart-conrext';
 import Layout from '../shared/layout';
 import './checkout.style.scss';
+import CustomCheckout from './custom-checkout/custom-checkout';
 import ShippingAddress from './custom-checkout/shipping-address';
 import StripeCheckout from './stripe-checkout/stripe-checkout';
 
 const Checkout = () => {
-  const { itemCount, total } = useContext(CartContext);
+  const { itemCount, total, cartItems } = useContext(CartContext);
   const [shipping, setShipping] = useState(null);
   const addressShown = {
     display: shipping ? 'none' : 'block',
+  };
+  const cardShown = {
+    display: shipping ? 'block' : 'none',
   };
   return (
     <Layout>
@@ -20,6 +24,9 @@ const Checkout = () => {
         {/* <StripeCheckout />  stripe builtin page  */}
         <div style={addressShown}>
           <ShippingAddress setShipping={setShipping} />
+        </div>
+        <div style={cardShown}>
+          <CustomCheckout {...{ shipping, cartItems }} />
         </div>
       </div>
     </Layout>
